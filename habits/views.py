@@ -3,6 +3,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 
 from habits.models import Habit
+from habits.pagination import CustomPagination
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer
 
@@ -56,6 +57,7 @@ class HabitListAPIView(generics.ListAPIView):
 
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         """ Возвращает только публичные привычки """
