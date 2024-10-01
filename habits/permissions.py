@@ -6,4 +6,5 @@ class IsOwner(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         """ Метод для проверки является ли авторизованный пользователь владельцем """
+
         return obj.user == request.user
