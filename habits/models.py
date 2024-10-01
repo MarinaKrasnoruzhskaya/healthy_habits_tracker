@@ -21,8 +21,9 @@ class Habit(models.Model):
 
     user = models.ForeignKey(
         AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name="Пользователь",
+        **NULLABLE
     )
     place = models.CharField(
         max_length=60,
