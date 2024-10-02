@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -16,7 +18,7 @@ class HabitTestCase(APITestCase):
         self.pleasant_habit = Habit.objects.create(
             user=self.owner,
             place="place test 1",
-            time="12:00",
+            time=datetime.strptime('12:00', '%H:%M').time(),
             action="action test 1",
             periodicity="1 time in 1 days",
             time_to_complete=60,
@@ -25,7 +27,7 @@ class HabitTestCase(APITestCase):
         self.useful_habit = Habit.objects.create(
             user=self.owner,
             place="place test 2",
-            time="12:00",
+            time=datetime.strptime('12:00', '%H:%M').time(),
             action="action test 2",
             periodicity="1 time in 1 days",
             time_to_complete=60,
@@ -35,7 +37,7 @@ class HabitTestCase(APITestCase):
         self.useful_habit_with_reward = Habit.objects.create(
             user=self.owner,
             place="place test 3",
-            time="12:00",
+            time=datetime.strptime('12:00', '%H:%M').time(),
             action="action test 3",
             periodicity="1 time in 1 days",
             time_to_complete=60,
@@ -45,7 +47,7 @@ class HabitTestCase(APITestCase):
         self.useful_habit_non_publicity = Habit.objects.create(
             user=self.owner,
             place="place test 4",
-            time="12:00",
+            time=datetime.strptime('12:00', '%H:%M').time(),
             action="action test 4",
             periodicity="1 time in 1 days",
             time_to_complete=60,
@@ -55,7 +57,7 @@ class HabitTestCase(APITestCase):
         self.useful_habit_user = Habit.objects.create(
             user=self.user,
             place="place test 5",
-            time="14:00",
+            time=datetime.strptime('14:00', '%H:%M').time(),
             action="action test 5",
             periodicity="1 time in 2 days",
             time_to_complete=30,
@@ -71,7 +73,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 1",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 1",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -89,7 +91,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 2",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 2",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -111,7 +113,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 3",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 3",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -134,7 +136,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 3",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 3",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -157,7 +159,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 2",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 2",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 121,
@@ -170,7 +172,7 @@ class HabitTestCase(APITestCase):
         )
         data = {
             "place": "place test 2",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 2",
             "periodicity": "1 time in 1 days",
             "time_to_complete": -1,
@@ -192,7 +194,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 4",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 4",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -215,7 +217,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 4",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 4",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -238,7 +240,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 4",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 4",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -262,7 +264,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:create")
         data = {
             "place": "place test 4",
-            "time": "12:00",
+            "time": timedelta(minutes=12),
             "action": "action test 4",
             "periodicity": "1 time in 1 days",
             "time_to_complete": 60,
@@ -328,7 +330,7 @@ class HabitTestCase(APITestCase):
 
         url = reverse("habits:update", args=(self.pleasant_habit.pk,))
         data = {
-            "time": "13:00",
+            "time": timedelta(minutes=13),
             "is_pleasant_habit": True
         }
         response = self.client.patch(url, data)
@@ -339,7 +341,7 @@ class HabitTestCase(APITestCase):
         )
         self.assertEqual(
             data.get('time'),
-            '13:00:00'
+            '00:13:00'
         )
 
     def test_habit_update_non_owner(self):
@@ -348,7 +350,7 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("habits:update", args=(self.pleasant_habit.pk,))
         data = {
-            "time": "13:00",
+            "time": timedelta(minutes=13),
             "is_pleasant_habit": True
         }
         response = self.client.patch(url, data)
@@ -363,7 +365,7 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=None)
         url = reverse("habits:update", args=(self.pleasant_habit.pk,))
         data = {
-            "time": "13:00",
+            "time": timedelta(minutes=13),
             "is_pleasant_habit": True
         }
         response = self.client.patch(url, data)
@@ -444,8 +446,9 @@ class HabitTestCase(APITestCase):
         url = reverse('habits:list')
         response = self.client.get(url)
         data = response.json()
-        self.assertEqual(response.status_code,status.HTTP_200_OK)
-        self.assertEqual(len(data['results']),2)
-        self.assertEqual(data['count'],2)
-        self.assertEqual(data['next'],None)
-        self.assertEqual(data['previous'],None)
+        # print(data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data['results']), 2)
+        self.assertEqual(data['count'], 2)
+        self.assertEqual(data['next'], None)
+        self.assertEqual(data['previous'], None)
