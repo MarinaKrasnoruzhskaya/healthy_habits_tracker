@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from django.db import models
 
 from config.settings import AUTH_USER_MODEL
@@ -55,6 +57,7 @@ class Habit(models.Model):
     )
     periodicity = models.CharField(
         choices=PERIODS,
+        default="1 time in 1 days",
         max_length=30,
         verbose_name="Периодичность выполнения",
         help_text="Укажите периодичность выполнения привычки",
@@ -76,9 +79,29 @@ class Habit(models.Model):
         **NULLABLE,
     )
 
+    next_reminder = models.DateField(
+        verbose_name="Дата следующего напоминания",
+        help_text="Укажите дату следующего напоминания",
+        **NULLABLE,
+    )
+
     def __str__(self):
         return f"я буду {self.action} в {self.time} в {self.place}"
 
     class Meta:
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
+
+    def save(self, *args, **kwargs):
+        """ Определяет дату следующего напоминания: сегодня, если текущее время не превышает задаваемое время выполнения
+        привычки, иначе следующий день """
+
+        now_date = datetime.now().date()
+        now_time = datetime.now().time()
+
+        if now_time > self.time:
+            self.next_reminder = now_date + timedelta(days=1)
+        else:
+            self.next_reminder = now_date
+
+        super(Habit, self).save(*args, **kwargs)
