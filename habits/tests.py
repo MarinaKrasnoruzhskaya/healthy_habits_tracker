@@ -319,7 +319,6 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("habits:detail", args=(self.useful_habit_non_publicity.pk,))
         response = self.client.get(url)
-        data = response.json()
         self.assertEqual(
             response.status_code,
             status.HTTP_403_FORBIDDEN
@@ -383,7 +382,7 @@ class HabitTestCase(APITestCase):
             response.status_code,
             status.HTTP_204_NO_CONTENT
         )
-        self.assertEqual(Habit.objects.all().count(),4)
+        self.assertEqual(Habit.objects.all().count(), 4)
 
     def test_habit_destroy_non_owner(self):
         """ Тестирование удаления привычки не владельцем"""
@@ -417,7 +416,7 @@ class HabitTestCase(APITestCase):
             response.status_code,
             status.HTTP_200_OK
         )
-        self.assertEqual(len(data),4)
+        self.assertEqual(len(data), 4)
 
         self.client.force_authenticate(user=self.user)
         url = reverse('habits:list-owner')
@@ -427,7 +426,7 @@ class HabitTestCase(APITestCase):
             response.status_code,
             status.HTTP_200_OK
         )
-        self.assertEqual(len(data),1)
+        self.assertEqual(len(data), 1)
 
     def test_habit_owner_list_unauthorized(self):
         """ Тестирование просмотра списка привычек неавторизованным пользователем """

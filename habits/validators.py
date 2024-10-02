@@ -22,7 +22,8 @@ class UsefulHabitValidator:
 
             if associated_habit:
                 if not associated_habit.is_pleasant_habit:
-                    raise ValidationError('Cвязанной привычкой может быть только привычка с признаком приятной привычки')
+                    raise ValidationError('Cвязанной привычкой может быть только привычка с признаком приятной '
+                                          'привычки')
 
 
 class PleasantHabitValidator:
