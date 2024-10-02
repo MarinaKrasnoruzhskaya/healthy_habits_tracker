@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "django_celery_beat",
     "corsheaders",
+    "drf_spectacular",
 
     "users",
     "habits"
@@ -155,6 +156,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 CELERY_TIMEZONE = TIME_ZONE
@@ -191,3 +193,11 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Трекер полезных привычек',
+    'DESCRIPTION': 'Приобретение новых полезных привычек по схеме: напоминание в telegram -> исполнение -> '
+                   'приятная привычка или вознаграждение ',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
