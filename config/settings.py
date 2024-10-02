@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "phonenumber_field",
     "rest_framework_simplejwt",
+    "django_celery_beat",
 
     "users",
     "habits"
@@ -163,3 +164,16 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 
 # set the celery result backend
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_BEAT_SCHEDULE = {
+    "sending_notifications": {
+        "task": "habits.tasks.sending_notifications",
+        "schedule": timedelta(minutes=1),
+    },
+}
+
+TELEGRAM_URL = 'https://api.telegram.org/bot'
+
+TELEGRAM_BOT_TOKEN = os.getenv('BOT_TOKEN')
