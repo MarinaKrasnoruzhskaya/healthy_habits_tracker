@@ -6,6 +6,7 @@
 я буду [ДЕЙСТВИЕ] в [ВРЕМЯ] в [МЕСТО]
 За каждую полезную привычку необходимо себя вознаграждать или сразу после делать приятную привычку. Но при этом привычка
 не должна расходовать на выполнение больше двух минут.
+Рассылка напоминаний о необходимости выполнения полезной привычки интегрирована в Телеграмм-бот пользователя. 
 
 ## Инструкции по установке
 
@@ -29,7 +30,7 @@
    ```sh
    pip install -r requirements.txt
    ```
-6. Заполнить файл ```.env.sample``` и переименовать его, дав имя ```.env```
+6. Заполнить файл ```.env.sample``` и переименовать его в файл с именем ```.env```
 7. Создать БД ```healthy_habits_tracker```
    ```
    psql -U postgres
@@ -42,7 +43,7 @@
     ```
 9. Заполнить БД
     ```sh
-   python manage.py fill
+   python manage.py loaddata data.json
    ```
 10. Запустить Celery worker
    ```sh
@@ -63,8 +64,8 @@
 
 ## Пользователи проекта:
 
-1. Superuser: {"email": "", "password": "admin"}
-2. Users: {"email": ", "password": "123456"}, 
+1. Superuser: {"email": "admin@hht.com", "password": "admin"}
+2. Users: {"email": "user_1@hht.com"", "password": "1234qwer"}, {"email": "user_2@hht.com"", "password": "1234qwer"}, 
 
 ## Построен с:
 
@@ -74,6 +75,13 @@
 4. Python-dotenv 1.0.1
 5. Psycopg2-bynary 2.9.9
 6. djangorestframework 3.15.2
+7. celery 5.4.0
+8. django-celery-beat 2.7.0
+9. django-cors-headers 4.4.0
+10. djangorestframework-simplejwt 5.3.1
+11. drf-spectacular 0.27.2
+12. redis 5.1.0
+13. requests 2.32.3
 
 ## Лицензия:
 
